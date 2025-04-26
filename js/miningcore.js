@@ -23,21 +23,21 @@
 
 
 // read WebURL from current browser
-var WebURL         = "https://poor-slav-pool.org/";  // Website URL is:  https://domain.com/
+var WebURL         = "https://chermik.me/";  // Website URL is:  https://domain.com/
 // WebURL correction if not ends with /
 if (WebURL.substring(WebURL.length-1) != "/")
 {
 	WebURL = WebURL + "/";
 	console.log('Corrected WebURL, does not end with / -> New WebURL : ', WebURL);
 }
-var API            = "https://miningcore.poor-slav-pool.org/api/";   						// API address is:  https://domain.com/api/
+var API            = "http://chermik.me:4000/api/";   						// API address is:  https://domain.com/api/
 // API correction if not ends with /
 if (API.substring(API.length-1) != "/")
 {
 	API = API + "/";
 	console.log('Corrected API, does not end with / -> New API : ', API);
 } 
-var stratumAddress = "poor-slav-pool.org";           				// Stratum address is:  domain.com
+var stratumAddress = "chermik.me";           				// Stratum address is:  domain.com
 
 
 
@@ -51,8 +51,8 @@ var stratumAddress = "poor-slav-pool.org";           				// Stratum address is: 
 // --------------------------------------------------------------------------------------------
 console.log('MiningCore.WebUI : ', WebURL);		                      // Returns website URL
 console.log('API address used : ', API);                                      // Returns API URL
-console.log('Stratum address  : ', "stratum+tcp://" + stratumAddress + ":");  // Returns Stratum URL
-console.log('Page Load        : ', window.location.href);                     // Returns full URL
+console.log('Stratum address  : ', stratumAddress);  // Returns Stratum URL
+console.log('Page Load        : ', "https://chermik.me");                     // Returns full URL
 
 currentPage = "index"
 
@@ -172,13 +172,12 @@ function loadHomePage() {
 		poolCoinTableTemplate += "<tr class='coin-table-row' href='#" + value.id + "'>";
 		poolCoinTableTemplate += "<td class='coin'><a href='#" + value.id + "'<span>" + coinLogo + coinName + " (" + value.coin.type.toUpperCase() + ") </span></a></td>";
 		poolCoinTableTemplate += "<td class='algo'>" + value.coin.algorithm + "</td>";
-    poolCoinTableTemplate += "<td class='payout-scheme'>" + value.paymentProcessing.payoutScheme + "</td>";
 		poolCoinTableTemplate += "<td class='miners'>" + value.poolStats.connectedMiners + "</td>";
 		poolCoinTableTemplate += "<td class='pool-hash'>" + _formatter(value.poolStats.poolHashrate, 5, "H/s") + "</td>";
 		poolCoinTableTemplate += "<td class='fee'>" + value.poolFeePercent + " %</td>";
 		poolCoinTableTemplate += "<td class='net-hash'>" + _formatter(value.networkStats.networkHashrate, 5, "H/s") + "</td>";
 		poolCoinTableTemplate += "<td class='net-diff'>" + _formatter(value.networkStats.networkDifficulty, 5, "") + "</td>";
-		poolCoinTableTemplate += "<td class='card-btn col-hide'>Go Mine " + coinLogo + "</td>";
+		poolCoinTableTemplate += "<td class='card-btn col-hide'>Go Mine " + coinLogo + coinName + "</td>";
 		poolCoinTableTemplate += "</tr>";
       });
 
@@ -408,7 +407,7 @@ function loadConnectPage() {
 			}
 			connectPoolConfig += "<tr><td>Pool Fee</td><td>" + value.poolFeePercent + "%</td></tr>";
 			$.each(value.ports, function(port, options) {
-				connectPoolConfig += "<tr><td>stratum+tcp://" + coinType + "." + stratumAddress + ":" + port + "</td><td>";
+				connectPoolConfig += "<tr><td>"+ stratumAddress + ":" + port + "</td><td>";
 				if (typeof options.varDiff !== "undefined" && options.varDiff != null) {
 					connectPoolConfig += "Difficulty Variable / " + options.varDiff.minDiff + " &harr; ";
 					if (typeof options.varDiff.maxDiff === "undefined" || options.varDiff.maxDiff == null) {
@@ -429,7 +428,7 @@ function loadConnectPage() {
 	  
 	  
 	  // Connect Miner config 
-	  /*$("#miner-config").html("");
+	  $("#miner-config").html("");
       $("#miner-config").load("poolconfig/" + coinType + ".html",
         function( response, status, xhr ) {
           if ( status == "error" ) {
@@ -452,7 +451,7 @@ function loadConnectPage() {
             $(this).html(config);
 		  }
         }
-      );*/
+      );
     })
     .fail(function() {
       $.notify(
@@ -869,4 +868,3 @@ function loadNavigation() {
       );
     });
 }
-
